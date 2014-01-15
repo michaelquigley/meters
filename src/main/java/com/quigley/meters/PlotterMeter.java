@@ -83,6 +83,9 @@ public class PlotterMeter extends JComponent {
 				}
 			}
 		}
+		if(labeler != null) {
+			// Label.
+		}
 	}
 
 	private Timer timer;
