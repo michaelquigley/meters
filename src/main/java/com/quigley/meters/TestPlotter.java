@@ -1,6 +1,7 @@
 package com.quigley.meters;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -25,8 +26,10 @@ public class TestPlotter {
 				frame.setContentPane(content);
 				
 				PlotterMeter plotterMeter = new PlotterMeter();
-				plotterMeter.addSampler(new RandomSampler());
-				plotterMeter.addSampler(new RandomSampler());
+				plotterMeter.addSampler(Color.red, new RandomSampler());
+				plotterMeter.addSampler(Color.green, new RandomSampler());
+				plotterMeter.addSampler(Color.orange, new RandomSampler());
+				plotterMeter.addSampler(Color.white, new RandomSampler());
 				plotterMeter.setPlotter(new CurvePlotter());
 				content.add(plotterMeter);
 				

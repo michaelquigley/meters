@@ -7,15 +7,15 @@ import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.swing.JComponent;
 import javax.swing.Timer;
 
 public class PlotterMeter extends JComponent {
 	public PlotterMeter() {
-		samplers = new ArrayList<Sampler>();
+		samplers = new HashMap<Color, Sampler>();
 		labeler = new PlainLabeler();
 		setSamplingInterval(1000);
 		currentMax = 1.0;
@@ -29,7 +29,7 @@ public class PlotterMeter extends JComponent {
 					long now = System.currentTimeMillis();
 					long elapsed = now - lastStamp;
 					if(elapsed >= samplingInterval) {
-						for(Sampler sampler : samplers) {
+						for(Sampler sampler : samplers.values()) {
 							sampler.sample();
 						}
 						lastStamp = now;
@@ -51,8 +51,8 @@ public class PlotterMeter extends JComponent {
 		timer.start();
 	}
 	
-	public void addSampler(Sampler sampler) {
-		samplers.add(sampler);
+	public void addSampler(Color color, Sampler sampler) {
+		samplers.put(color, sampler);
 	}
 	public void setSamplingInterval(int milliseconds) {
 		samplingInterval = milliseconds;
@@ -76,8 +76,10 @@ public class PlotterMeter extends JComponent {
 		
 		Rectangle plotR = new Rectangle(0, 20, getWidth(), getHeight() - 21);
 		if(plotter != null) {
-			for(Sampler sampler : samplers) {
-				double max = plotter.plot(g2d, plotR, Color.red, sampler.getSamples(), sampleXSize, offset, currentMax);
+			targetMax = 0.0;
+			for(Color color : samplers.keySet()) {
+				Sampler sampler = samplers.get(color);
+				double max = plotter.plot(g2d, plotR, color, sampler.getSamples(), sampleXSize, offset, currentMax);
 				if(max > targetMax) {
 					targetMax = max;
 				}
@@ -89,7 +91,7 @@ public class PlotterMeter extends JComponent {
 	}
 
 	private Timer timer;
-	private List<Sampler> samplers;
+	private Map<Color, Sampler> samplers;
 	private Plotter plotter;
 	private Labeler labeler;
 	

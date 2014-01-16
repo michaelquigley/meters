@@ -13,7 +13,6 @@ public class CurvePlotter implements Plotter {
 	public double plot(Graphics2D g2d, Rectangle r, Color c, List<Sample> samples, double sampleWidth, double offset, double currentMax) {
 		double max = 0.0;
 		if(samples != null) {
-			System.out.println("Plotting: " + samples.size());
 			g2d.setColor(c);
 			g2d.setStroke(new BasicStroke(1.25F));
 			
