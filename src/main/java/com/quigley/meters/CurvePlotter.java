@@ -10,16 +10,16 @@ import java.util.List;
 
 public class CurvePlotter implements Plotter {
 	@Override
-	public double plot(Graphics2D g2d, Rectangle r, Color c, List<Sample> samples, double sampleWidth, double offset, double currentMax) {
+	public double paint(Graphics2D g2d, Rectangle r, Color c, List<Sample> samples, double sampleWidth, double offset, double currentMax) {
 		double max = 0.0;
 		if(samples != null) {
 			g2d.setColor(c);
-			g2d.setStroke(new BasicStroke(1.25F));
+			g2d.setStroke(new BasicStroke(1.75F));
 			
-			int x = (int) Math.ceil(r.getWidth() + sampleWidth - offset);
+			int x = (int) Math.ceil(r.x + r.width + sampleWidth - offset);
 			
 			Point lastPoint = null;
-			for(int i = samples.size() - 1; i >= 0 && x >= -sampleWidth; i--) {
+			for(int i = samples.size() - 1; i >= 0 && x >= r.x - sampleWidth; i--) {
 				Sample s = samples.get(i);
 				double fraction = s.getValue() / currentMax;
 				int height = (int) (r.getHeight() * fraction);

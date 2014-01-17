@@ -7,15 +7,15 @@ import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JComponent;
 import javax.swing.Timer;
 
 public class PlotterMeter extends JComponent {
 	public PlotterMeter() {
-		samplers = new HashMap<Color, Sampler>();
+		samplers = new ArrayList<Sampler>();
 		labeler = new PlainLabeler();
 		setSamplingInterval(1000);
 		currentMax = 1.0;
@@ -29,7 +29,7 @@ public class PlotterMeter extends JComponent {
 					long now = System.currentTimeMillis();
 					long elapsed = now - lastStamp;
 					if(elapsed >= samplingInterval) {
-						for(Sampler sampler : samplers.values()) {
+						for(Sampler sampler : samplers) {
 							sampler.sample();
 						}
 						lastStamp = now;
@@ -42,7 +42,7 @@ public class PlotterMeter extends JComponent {
 					}
 				}
 				if(currentMax != targetMax) {
-					currentMax += ((targetMax - currentMax) / 6.0);
+					currentMax += ((targetMax - currentMax) / 10.0);
 				}
 				repaint();
 			}
@@ -51,8 +51,8 @@ public class PlotterMeter extends JComponent {
 		timer.start();
 	}
 	
-	public void addSampler(Color color, Sampler sampler) {
-		samplers.put(color, sampler);
+	public void addSampler(Sampler sampler) {
+		samplers.add(sampler);
 	}
 	public void setSamplingInterval(int milliseconds) {
 		samplingInterval = milliseconds;
@@ -64,6 +64,12 @@ public class PlotterMeter extends JComponent {
 	public void setLabeler(Labeler labeler) {
 		this.labeler = labeler;
 	}
+	public void setHorizontalAxis(HorizontalAxis horizontalAxis) {
+		this.horizontalAxis = horizontalAxis;
+	}
+	public void setVerticalAxis(VerticalAxis verticalAxis) {
+		this.verticalAxis = verticalAxis;
+	}
 	
 	@Override
 	protected void paintComponent(Graphics g) {
@@ -74,26 +80,62 @@ public class PlotterMeter extends JComponent {
 		g.setColor(backgroundColor);
 		g.fillRect(r.x, r.y, r.width, r.height);
 		
-		Rectangle plotR = new Rectangle(0, 20, getWidth(), getHeight() - 21);
+		Rectangle plotR = plotRectangle();
 		if(plotter != null) {
 			targetMax = 0.0;
-			for(Color color : samplers.keySet()) {
-				Sampler sampler = samplers.get(color);
-				double max = plotter.plot(g2d, plotR, color, sampler.getSamples(), sampleXSize, offset, currentMax);
+			for(Sampler sampler : samplers) {
+				double max = plotter.paint(g2d, plotR, sampler.getColor(), sampler.getSamples(), sampleXSize, offset, currentMax);
 				if(max > targetMax) {
 					targetMax = max;
 				}
 			}
 		}
+		if(horizontalAxis != null) {
+			Rectangle horizontalAxisLabelR = horizontalAxisLabelRectangle();
+			horizontalAxis.paint(g2d, backgroundColor, foregroundColor, horizontalAxisLabelR, plotR, labeler, samplers.get(0).getSamples(), sampleXSize, offset);
+		}
+		if(verticalAxis != null) {
+			Rectangle verticalAxisLabelR = verticalAxisLabelRectangle();
+			verticalAxis.paint(g2d, backgroundColor, foregroundColor, verticalAxisLabelR, plotR, labeler, currentMax);
+		}
 		if(labeler != null) {
 			// Label.
 		}
 	}
+	
+	protected Rectangle plotRectangle() {
+		Rectangle r = new Rectangle(getWidth(), getHeight());
+		if(horizontalAxis != null) {
+			r.y += (horizontalAxis.preferredHeight() + 2);
+			r.height -= (horizontalAxis.preferredHeight() + 2);
+		}
+		if(verticalAxis != null) {
+			r.x += verticalAxis.preferredWidth();
+			r.width -= verticalAxis.preferredWidth();
+		}
+		return r;
+	}
+	
+	protected Rectangle horizontalAxisLabelRectangle() {
+		Rectangle r = new Rectangle(0, 0, getWidth(), horizontalAxis.preferredHeight());
+		return r;
+	}
+	
+	protected Rectangle verticalAxisLabelRectangle() {
+		Rectangle r = new Rectangle(0, 0, verticalAxis.preferredWidth(), getHeight());
+		if(horizontalAxis != null) {
+			r.y += horizontalAxis.preferredHeight() + 1;
+			r.height -= (horizontalAxis.preferredHeight() + 1);
+		}
+		return r;
+	}
 
 	private Timer timer;
-	private Map<Color, Sampler> samplers;
+	private List<Sampler> samplers;
 	private Plotter plotter;
 	private Labeler labeler;
+	private HorizontalAxis horizontalAxis;
+	private VerticalAxis verticalAxis;
 	
 	private long samplingInterval;
 	private long lastStamp;
@@ -108,6 +150,7 @@ public class PlotterMeter extends JComponent {
 	private static double sampleXSize = 25.0;
 	
 	private static Color backgroundColor = Color.black;
+	private static Color foregroundColor = Color.gray;
 	
 	private static final long serialVersionUID = -7436291254326309438L;
 }

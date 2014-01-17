@@ -1,11 +1,17 @@
 package com.quigley.meters;
 
+import java.awt.Color;
 import java.util.Random;
 
 public class RandomSampler extends Sampler {
 	public RandomSampler() {
+		super();
 		count = 0;
 		max = 100.0;
+	}
+	public RandomSampler(Color color) {
+		super();
+		setColor(color);
 	}
 	
 	@Override
@@ -17,7 +23,7 @@ public class RandomSampler extends Sampler {
 				max = 100.0;
 			}
 		}
-		addSample(new Sample(new Random().nextDouble() * max));
+		addSample(new Sample(new Random().nextDouble() * max, System.currentTimeMillis()));
 		count++;
 	}
 	

@@ -26,11 +26,12 @@ public class TestPlotter {
 				frame.setContentPane(content);
 				
 				PlotterMeter plotterMeter = new PlotterMeter();
-				plotterMeter.addSampler(Color.red, new RandomSampler());
-				plotterMeter.addSampler(Color.green, new RandomSampler());
-				plotterMeter.addSampler(Color.orange, new RandomSampler());
-				plotterMeter.addSampler(Color.white, new RandomSampler());
+				plotterMeter.addSampler(new RandomSampler(Color.red));
+				plotterMeter.addSampler(new RandomSampler(Color.green));
 				plotterMeter.setPlotter(new CurvePlotter());
+				plotterMeter.setHorizontalAxis(new PlainHorizontalAxis());
+				plotterMeter.setVerticalAxis(new PlainVerticalAxis());
+				plotterMeter.setSamplingInterval(500);
 				content.add(plotterMeter);
 				
 				frame.setVisible(true);

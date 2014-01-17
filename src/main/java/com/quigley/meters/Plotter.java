@@ -9,5 +9,5 @@ public interface Plotter {
 	/**
 	 * @return the maximum sample value from the provided set.
 	 */
-	public double plot(Graphics2D g2d, Rectangle r, Color c, List<Sample> samples, double sampleWidth, double offset, double currentMax);
+	public double paint(Graphics2D g2d, Rectangle r, Color c, List<Sample> samples, double sampleWidth, double offset, double currentMax);
 }
