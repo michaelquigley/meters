@@ -149,7 +149,7 @@ public class PlotterMeter extends JComponent {
 	private static double fps = 40.0;
 	private static double sampleXSize = 25.0;
 	
-	private static Color backgroundColor = Color.black;
+	private static Color backgroundColor = new Color(32, 32, 32);
 	private static Color foregroundColor = Color.gray;
 	
 	private static final long serialVersionUID = -7436291254326309438L;

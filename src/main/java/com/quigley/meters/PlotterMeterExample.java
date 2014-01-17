@@ -10,14 +10,14 @@ import javax.swing.UIManager;
 
 import com.seaglasslookandfeel.SeaGlassLookAndFeel;
 
-public class TestPlotter {
+public class PlotterMeterExample {
 	public static void main(String[] args) throws Exception {
 		UIManager.setLookAndFeel(new SeaGlassLookAndFeel());
 		EventQueue.invokeLater(new Runnable() {
 			@Override
 			public void run() {
 				JFrame frame = new JFrame();
-				frame.setTitle("TestPlotter");
+				frame.setTitle("PlotterMeterExample");
 				frame.setBounds(1000, 500, 400, 200);
 				frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 				
@@ -31,7 +31,7 @@ public class TestPlotter {
 				plotterMeter.setPlotter(new CurvePlotter());
 				plotterMeter.setHorizontalAxis(new PlainHorizontalAxis());
 				plotterMeter.setVerticalAxis(new PlainVerticalAxis());
-				plotterMeter.setSamplingInterval(500);
+				plotterMeter.setSamplingInterval(1500);
 				content.add(plotterMeter);
 				
 				frame.setVisible(true);
