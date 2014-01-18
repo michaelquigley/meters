@@ -6,13 +6,9 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.UIManager;
-
-import com.seaglasslookandfeel.SeaGlassLookAndFeel;
 
 public class PlotterMeterExample {
 	public static void main(String[] args) throws Exception {
-		UIManager.setLookAndFeel(new SeaGlassLookAndFeel());
 		EventQueue.invokeLater(new Runnable() {
 			@Override
 			public void run() {
