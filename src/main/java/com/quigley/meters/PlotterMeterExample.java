@@ -13,7 +13,7 @@ public class PlotterMeterExample {
 			@Override
 			public void run() {
 				JFrame frame = new JFrame();
-				frame.setTitle("PlotterMeterExample");
+				frame.setTitle("PlotterMeter Example");
 				frame.setBounds(1000, 500, 400, 200);
 				frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 				
