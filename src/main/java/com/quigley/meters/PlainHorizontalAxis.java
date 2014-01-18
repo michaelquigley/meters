@@ -10,7 +10,7 @@ import java.util.List;
 public class PlainHorizontalAxis implements HorizontalAxis {
 	@Override
 	public int preferredHeight() {
-		return 25;
+		return 15;
 	}
 
 	@Override

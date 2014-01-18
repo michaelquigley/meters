@@ -23,8 +23,10 @@ public class PlotterMeterExample {
 				
 				PlotterMeter plotterMeter = new PlotterMeter();
 				plotterMeter.addSampler(new RandomSampler(Color.red));
-				plotterMeter.addSampler(new RandomSampler(Color.green));
+				plotterMeter.addSampler(new RandomSampler(Color.orange));
+				plotterMeter.addSampler(new RandomSampler(Color.magenta));
 				plotterMeter.setPlotter(new CurvePlotter());
+				plotterMeter.setTitleArea(new PlainTitleArea());
 				plotterMeter.setHorizontalAxis(new PlainHorizontalAxis());
 				plotterMeter.setVerticalAxis(new PlainVerticalAxis());
 				plotterMeter.setSamplingInterval(1500);

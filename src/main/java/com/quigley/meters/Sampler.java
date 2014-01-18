@@ -17,13 +17,22 @@ public abstract class Sampler {
 	public void setSamples(List<Sample> samples) {
 		this.samples = samples;
 	}
-	protected void addSample(Sample sample) {
+	public void addSample(Sample sample) {
 		if(samples == null) {
 			samples = new ArrayList<Sample>();
 		}
 		samples.add(sample);
 		if(samples.size() > 4096) {
 			samples.remove(0);
+		}
+	}
+	
+	public Sample front() {
+		if(samples != null && samples.size() > 0) {
+			return samples.get(samples.size() - 1);
+			
+		} else {
+			return null;
 		}
 	}
 	

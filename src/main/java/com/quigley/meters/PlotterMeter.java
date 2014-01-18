@@ -62,6 +62,9 @@ public class PlotterMeter extends JComponent {
 	public void setPlotter(Plotter plotter) {
 		this.plotter = plotter;
 	}
+	public void setTitleArea(TitleArea titleArea) {
+		this.titleArea = titleArea;
+	}
 	public void setValueLabeler(ValueLabeler labeler) {
 		this.valueLabeler = labeler;
 	}
@@ -102,13 +105,44 @@ public class PlotterMeter extends JComponent {
 			Rectangle verticalAxisLabelR = verticalAxisLabelRectangle();
 			verticalAxis.paint(g2d, backgroundColor, foregroundColor, verticalAxisLabelR, plotR, valueLabeler, currentMax);
 		}
-		if(valueLabeler != null) {
-			// Label.
+		if(titleArea != null) {
+			Rectangle titleAreaR = titleAreaRectangle();
+			titleArea.paint(g2d, backgroundColor, foregroundColor, titleAreaR, valueLabeler, samplers);
 		}
+	}
+	
+	protected Rectangle titleAreaRectangle() {
+		Rectangle r = new Rectangle(0, 0, getWidth(), titleArea.preferredHeight());
+		return r;
+	}
+	
+	protected Rectangle horizontalAxisLabelRectangle() {
+		Rectangle r = new Rectangle(0, 0, getWidth(), horizontalAxis.preferredHeight());
+		if(titleArea != null) {
+			r.y += (titleArea.preferredHeight() + 1);
+		}
+		return r;
+	}
+	
+	protected Rectangle verticalAxisLabelRectangle() {
+		Rectangle r = new Rectangle(0, 0, verticalAxis.preferredWidth(), getHeight());
+		if(titleArea != null) {
+			r.y += (titleArea.preferredHeight() + 1);
+			r.height -= (titleArea.preferredHeight() + 1);
+		}
+		if(horizontalAxis != null) {
+			r.y += horizontalAxis.preferredHeight() + 1;
+			r.height -= (horizontalAxis.preferredHeight() + 1);
+		}
+		return r;
 	}
 	
 	protected Rectangle plotRectangle() {
 		Rectangle r = new Rectangle(getWidth(), getHeight());
+		if(titleArea != null) {
+			r.y += (titleArea.preferredHeight() + 2);
+			r.height -= (titleArea.preferredHeight() + 2);
+		}
 		if(horizontalAxis != null) {
 			r.y += (horizontalAxis.preferredHeight() + 2);
 			r.height -= (horizontalAxis.preferredHeight() + 2);
@@ -119,26 +153,13 @@ public class PlotterMeter extends JComponent {
 		}
 		return r;
 	}
-	
-	protected Rectangle horizontalAxisLabelRectangle() {
-		Rectangle r = new Rectangle(0, 0, getWidth(), horizontalAxis.preferredHeight());
-		return r;
-	}
-	
-	protected Rectangle verticalAxisLabelRectangle() {
-		Rectangle r = new Rectangle(0, 0, verticalAxis.preferredWidth(), getHeight());
-		if(horizontalAxis != null) {
-			r.y += horizontalAxis.preferredHeight() + 1;
-			r.height -= (horizontalAxis.preferredHeight() + 1);
-		}
-		return r;
-	}
 
 	private Timer timer;
 	private List<Sampler> samplers;
 	private Plotter plotter;
 	private ValueLabeler valueLabeler;
 	private StampLabeler stampLabeler;
+	private TitleArea titleArea;
 	private HorizontalAxis horizontalAxis;
 	private VerticalAxis verticalAxis;
 	
