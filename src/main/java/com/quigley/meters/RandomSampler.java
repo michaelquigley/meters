@@ -23,7 +23,7 @@ public class RandomSampler extends Sampler {
 				max = 100.0;
 			}
 		}
-		addSample(new Sample(new Random().nextDouble() * max, System.currentTimeMillis()));
+		addSample(new Sample(new Random().nextDouble() * max));
 		count++;
 	}
 	

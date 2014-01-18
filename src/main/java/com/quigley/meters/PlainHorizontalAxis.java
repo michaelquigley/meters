@@ -5,8 +5,6 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 public class PlainHorizontalAxis implements HorizontalAxis {
@@ -18,7 +16,7 @@ public class PlainHorizontalAxis implements HorizontalAxis {
 	@Override
 	public void paint(Graphics2D g2d, Color backgroundColor, Color foregroundColor, 
 			          Rectangle horizontalAxisLabelR, Rectangle plotR, 
-			          Labeler labeler, 
+			          StampLabeler stampLabeler, 
 			          List<Sample> samples,
 			          double sampleWidth, 
 			          double offset) {
@@ -44,8 +42,8 @@ public class PlainHorizontalAxis implements HorizontalAxis {
 					g2d.drawLine(x, plotR.y, x, plotR.y + plotR.height);
 
 					Sample sample = samples.get(i);
-					String label = timeFormat.format(new Date(sample.getTimeStamp()));
-					g2d.drawString(label, x, (int) (horizontalAxisLabelR.y + horizontalAxisLabelR.height - 2));
+					String label = stampLabeler.label(sample.getStamp());
+					g2d.drawString(label, x - 2, (int) (horizontalAxisLabelR.y + horizontalAxisLabelR.height - 2));
 				}
 				x -= sampleWidth;
 			}
@@ -55,5 +53,4 @@ public class PlainHorizontalAxis implements HorizontalAxis {
 	}
 
 	private static BasicStroke dashStroke = new BasicStroke(1.0F, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 10.0F, new float[] { 1.5F, 1.5F }, 0.0F);
-	private static SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
 }

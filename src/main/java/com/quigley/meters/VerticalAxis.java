@@ -8,6 +8,6 @@ public interface VerticalAxis {
 	public int preferredWidth();
 	public void paint(Graphics2D g2d, Color backgroundColor, Color foregroundColor, 
 			          Rectangle axisLabelR, Rectangle plotR, 
-			          Labeler labeler, 
+			          ValueLabeler valueLabeler, 
 			          double currentMax);
 }

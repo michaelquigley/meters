@@ -1,9 +1,15 @@
 package com.quigley.meters;
 
+import java.util.Date;
+
 public class Sample {
-	public Sample(double value, long timeStamp) {
+	public Sample(double value) {
 		this.value = value;
-		this.timeStamp = timeStamp;
+		stamp = new Date();
+	}
+	public Sample(double value, Date stamp) {
+		this.value = value;
+		this.stamp = stamp;
 	}
 	
 	public double getValue() {
@@ -12,14 +18,14 @@ public class Sample {
 	public void setValue(double value) {
 		this.value = value;
 	}
-	
-	public long getTimeStamp() {
-		return timeStamp;
+
+	public Date getStamp() {
+		return stamp;
 	}
-	public void setTimeStamp(long timeStamp) {
-		this.timeStamp = timeStamp;
+	public void setStamp(Date stamp) {
+		this.stamp = stamp;
 	}
 
 	private double value;
-	private long timeStamp;
+	private Date stamp;
 }

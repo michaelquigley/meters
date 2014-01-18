@@ -16,7 +16,7 @@ public class PlainVerticalAxis implements VerticalAxis {
 	@Override
 	public void paint(Graphics2D g2d, Color backgroundColor, Color foregroundColor, 
 			          Rectangle verticalAxisLabelR, Rectangle plotR, 
-			          Labeler labeler, 
+			          ValueLabeler valueLabeler, 
 			          double currentMax) {
 		
 		g2d.setColor(backgroundColor);
@@ -31,16 +31,16 @@ public class PlainVerticalAxis implements VerticalAxis {
 		int midHeight = verticalAxisLabelR.y + (verticalAxisLabelR.height / 2);
 		g2d.drawLine(0, midHeight, plotR.x + plotR.width, midHeight);
 
-		if(labeler != null) {
+		if(valueLabeler != null) {
 			Font oldFont = g2d.getFont();
 			Font font = oldFont.deriveFont(10.0F);
 			g2d.setFont(font);
 			
-			String maxLabel = labeler.label(new Sample(currentMax, System.currentTimeMillis()));
+			String maxLabel = valueLabeler.label(currentMax);
 			Rectangle2D maxExtent = g2d.getFontMetrics().getStringBounds(maxLabel, g2d);
 			g2d.drawString(maxLabel, verticalAxisLabelR.x + 2, (int) (verticalAxisLabelR.y + maxExtent.getHeight()));
 			
-			String midLabel = labeler.label(new Sample(currentMax / 2.0, System.currentTimeMillis()));
+			String midLabel = valueLabeler.label(currentMax / 2.0);
 			Rectangle2D midExtent = g2d.getFontMetrics().getStringBounds(midLabel, g2d);
 			g2d.drawString(midLabel, verticalAxisLabelR.x + 2, (int) (midHeight + midExtent.getHeight()));
 			

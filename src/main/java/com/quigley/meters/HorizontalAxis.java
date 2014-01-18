@@ -9,7 +9,7 @@ public interface HorizontalAxis {
 	public int preferredHeight();
 	public void paint(Graphics2D g2d, Color backgroundColor, Color foregroundColor,
 					  Rectangle horizontalAxisLabelR, Rectangle plotR,
-					  Labeler labeler,
+					  StampLabeler stampLabeler,
 					  List<Sample> samples,
 					  double sampleWidth,
 					  double offset);

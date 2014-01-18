@@ -16,11 +16,12 @@ import javax.swing.Timer;
 public class PlotterMeter extends JComponent {
 	public PlotterMeter() {
 		samplers = new ArrayList<Sampler>();
-		labeler = new PlainLabeler();
+		
+		PlainLabeler plainLabeler = new PlainLabeler();
+		valueLabeler = plainLabeler;
+		stampLabeler = plainLabeler;
+		
 		setSamplingInterval(1000);
-		currentMax = 1.0;
-		targetMax = 1.0;
-		offset = 0.0;
 		
 		timer = new Timer((int) (1000.0 / fps), new ActionListener() {
 			@Override
@@ -61,8 +62,11 @@ public class PlotterMeter extends JComponent {
 	public void setPlotter(Plotter plotter) {
 		this.plotter = plotter;
 	}
-	public void setLabeler(Labeler labeler) {
-		this.labeler = labeler;
+	public void setValueLabeler(ValueLabeler labeler) {
+		this.valueLabeler = labeler;
+	}
+	public void setStampLabeler(StampLabeler labeler) {
+		this.stampLabeler = labeler;
 	}
 	public void setHorizontalAxis(HorizontalAxis horizontalAxis) {
 		this.horizontalAxis = horizontalAxis;
@@ -92,13 +96,13 @@ public class PlotterMeter extends JComponent {
 		}
 		if(horizontalAxis != null) {
 			Rectangle horizontalAxisLabelR = horizontalAxisLabelRectangle();
-			horizontalAxis.paint(g2d, backgroundColor, foregroundColor, horizontalAxisLabelR, plotR, labeler, samplers.get(0).getSamples(), sampleXSize, offset);
+			horizontalAxis.paint(g2d, backgroundColor, foregroundColor, horizontalAxisLabelR, plotR, stampLabeler, samplers.get(0).getSamples(), sampleXSize, offset);
 		}
 		if(verticalAxis != null) {
 			Rectangle verticalAxisLabelR = verticalAxisLabelRectangle();
-			verticalAxis.paint(g2d, backgroundColor, foregroundColor, verticalAxisLabelR, plotR, labeler, currentMax);
+			verticalAxis.paint(g2d, backgroundColor, foregroundColor, verticalAxisLabelR, plotR, valueLabeler, currentMax);
 		}
-		if(labeler != null) {
+		if(valueLabeler != null) {
 			// Label.
 		}
 	}
@@ -133,7 +137,8 @@ public class PlotterMeter extends JComponent {
 	private Timer timer;
 	private List<Sampler> samplers;
 	private Plotter plotter;
-	private Labeler labeler;
+	private ValueLabeler valueLabeler;
+	private StampLabeler stampLabeler;
 	private HorizontalAxis horizontalAxis;
 	private VerticalAxis verticalAxis;
 	
