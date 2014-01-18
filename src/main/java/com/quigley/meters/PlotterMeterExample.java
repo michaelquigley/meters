@@ -12,7 +12,6 @@ import com.seaglasslookandfeel.SeaGlassLookAndFeel;
 
 public class PlotterMeterExample {
 	public static void main(String[] args) throws Exception {
-		UIManager.setLookAndFeel(new SeaGlassLookAndFeel());
 		EventQueue.invokeLater(new Runnable() {
 			@Override
 			public void run() {
