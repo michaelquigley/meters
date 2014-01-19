@@ -22,13 +22,19 @@ public class PlotterMeterExample {
 				frame.setContentPane(content);
 				
 				PlotterMeter plotterMeter = new PlotterMeter();
-				plotterMeter.addSampler(new RandomSampler(Color.red));
-				plotterMeter.addSampler(new RandomSampler(Color.orange));
-				plotterMeter.addSampler(new RandomSampler(Color.magenta));
+				
+				RandomSampler redSampler = new RandomSampler(Color.red);
+				plotterMeter.addSampler(redSampler);
+				
+				RandomSampler orangeSampler = new RandomSampler(Color.orange);
+				plotterMeter.addSampler(orangeSampler);
+				
 				plotterMeter.setPlotter(new CurvePlotter());
 				plotterMeter.setTitleArea(new PlainTitleArea());
 				plotterMeter.setHorizontalAxis(new PlainHorizontalAxis());
 				plotterMeter.setVerticalAxis(new PlainVerticalAxis());
+				plotterMeter.addIndicator(new FloatingLineIndicator(redSampler));
+				plotterMeter.addIndicator(new FloatingLineIndicator(orangeSampler));
 				plotterMeter.setSamplingInterval(1500);
 				content.add(plotterMeter);
 				

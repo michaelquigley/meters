@@ -77,6 +77,12 @@ public class PlotterMeter extends JComponent {
 	public void setVerticalAxis(VerticalAxis verticalAxis) {
 		this.verticalAxis = verticalAxis;
 	}
+	public void addIndicator(Indicator indicator) {
+		if(indicators == null) {
+			indicators = new ArrayList<Indicator>();
+		}
+		indicators.add(indicator);
+	}
 	
 	@Override
 	protected void paintComponent(Graphics g) {
@@ -108,6 +114,11 @@ public class PlotterMeter extends JComponent {
 		if(titleArea != null) {
 			Rectangle titleAreaR = titleAreaRectangle();
 			titleArea.paint(g2d, backgroundColor, foregroundColor, titleAreaR, valueLabeler, samplers);
+		}
+		if(indicators != null) {
+			for(Indicator indicator : indicators) {
+				indicator.paint(g2d, foregroundColor, plotR, currentMax);
+			}
 		}
 	}
 	
@@ -162,6 +173,7 @@ public class PlotterMeter extends JComponent {
 	private TitleArea titleArea;
 	private HorizontalAxis horizontalAxis;
 	private VerticalAxis verticalAxis;
+	private List<Indicator> indicators;
 	
 	private long samplingInterval;
 	private long lastStamp;
