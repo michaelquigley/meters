@@ -15,6 +15,12 @@ import javax.swing.Timer;
 
 public class PlotterMeter extends JComponent {
 	public PlotterMeter() {
+		fps = 20.0;
+		sampleWidth = 25;
+
+		foregroundColor = Color.gray;
+		backgroundColor = new Color(32, 32, 32);
+		
 		samplers = new ArrayList<Sampler>();
 		
 		PlainLabeler plainLabeler = new PlainLabeler();
@@ -52,6 +58,37 @@ public class PlotterMeter extends JComponent {
 		timer.start();
 	}
 	
+	public double getFps() {
+		return fps;
+	}
+	public void setFps(double fps) {
+		this.fps = fps;
+		if(timer != null) {
+			timer.setDelay((int) (1000.0 / fps));
+		}
+	}
+
+	public double getSampleWidth() {
+		return sampleWidth;
+	}
+	public void setSampleWidth(double sampleWidth) {
+		this.sampleWidth = sampleWidth;
+	}
+
+	public Color getForegroundColor() {
+		return foregroundColor;
+	}
+	public void setForegroundColor(Color foregroundColor) {
+		this.foregroundColor = foregroundColor;
+	}
+
+	public Color getBackgroundColor() {
+		return backgroundColor;
+	}
+	public void setBackgroundColor(Color backgroundColor) {
+		this.backgroundColor = backgroundColor;
+	}
+
 	public void addSampler(Sampler sampler) {
 		samplers.add(sampler);
 	}
@@ -165,6 +202,12 @@ public class PlotterMeter extends JComponent {
 		return r;
 	}
 
+	private double fps;
+	private double sampleWidth;
+
+	private Color foregroundColor;
+	private Color backgroundColor;
+	
 	private Timer timer;
 	private List<Sampler> samplers;
 	private Plotter plotter;
@@ -183,12 +226,6 @@ public class PlotterMeter extends JComponent {
 	
 	private double offset;
 	private double offsetIncrement;
-	
-	private static double fps = 20.0;
-	private static double sampleWidth = 25.0;
-	
-	private static Color backgroundColor = new Color(32, 32, 32);
-	private static Color foregroundColor = Color.gray;
-	
+		
 	private static final long serialVersionUID = -7436291254326309438L;
 }
