@@ -35,7 +35,7 @@ public class PlotterMeter extends JComponent {
 						}
 						lastStamp = now;
 						
-						offsetIncrement += (((sampleXSize - offset) / fps) * (1000.0 / samplingInterval));
+						offsetIncrement += (((sampleWidth - offset) / fps) * (1000.0 / samplingInterval));
 						offset = 0;
 						
 					} else {
@@ -57,7 +57,7 @@ public class PlotterMeter extends JComponent {
 	}
 	public void setSamplingInterval(int milliseconds) {
 		samplingInterval = milliseconds;
-		offsetIncrement = (sampleXSize / fps) * (1000.0 / samplingInterval);
+		offsetIncrement = (sampleWidth / fps) * (1000.0 / samplingInterval);
 	}
 	public void setPlotter(Plotter plotter) {
 		this.plotter = plotter;
@@ -91,7 +91,7 @@ public class PlotterMeter extends JComponent {
 		if(plotter != null) {
 			targetMax = 0.0;
 			for(Sampler sampler : samplers) {
-				double max = plotter.paint(g2d, plotR, sampler.getColor(), sampler.getSamples(), sampleXSize, offset, currentMax);
+				double max = plotter.paint(g2d, plotR, sampler.getColor(), sampler.getSamples(), sampleWidth, offset, currentMax);
 				if(max > targetMax) {
 					targetMax = max;
 				}
@@ -99,7 +99,7 @@ public class PlotterMeter extends JComponent {
 		}
 		if(horizontalAxis != null) {
 			Rectangle horizontalAxisLabelR = horizontalAxisLabelRectangle();
-			horizontalAxis.paint(g2d, backgroundColor, foregroundColor, horizontalAxisLabelR, plotR, stampLabeler, samplers.get(0).getSamples(), sampleXSize, offset);
+			horizontalAxis.paint(g2d, backgroundColor, foregroundColor, horizontalAxisLabelR, plotR, stampLabeler, samplers.get(0).getSamples(), sampleWidth, offset);
 		}
 		if(verticalAxis != null) {
 			Rectangle verticalAxisLabelR = verticalAxisLabelRectangle();
@@ -172,8 +172,8 @@ public class PlotterMeter extends JComponent {
 	private double offset;
 	private double offsetIncrement;
 	
-	private static double fps = 40.0;
-	private static double sampleXSize = 25.0;
+	private static double fps = 20.0;
+	private static double sampleWidth = 25.0;
 	
 	private static Color backgroundColor = new Color(32, 32, 32);
 	private static Color foregroundColor = Color.gray;
