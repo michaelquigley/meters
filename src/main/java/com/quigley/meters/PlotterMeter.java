@@ -293,7 +293,9 @@ public class PlotterMeter extends JComponent {
 		}
 		if(horizontalAxis != null) {
 			Rectangle horizontalAxisLabelR = horizontalAxisLabelRectangle();
-			horizontalAxis.paint(g2d, backgroundColor, foregroundColor, horizontalAxisLabelR, plotR, stampLabeler, samplers.get(0).getSamples(), sampleWidth, offset);
+			if(samplers != null && samplers.size() > 0) {
+				horizontalAxis.paint(g2d, backgroundColor, foregroundColor, horizontalAxisLabelR, plotR, stampLabeler, samplers.get(0).getSamples(), sampleWidth, offset);
+			}
 		}
 		if(verticalAxis != null) {
 			Rectangle verticalAxisLabelR = verticalAxisLabelRectangle();
