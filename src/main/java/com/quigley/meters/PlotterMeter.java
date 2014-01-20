@@ -121,6 +121,14 @@ public class PlotterMeter extends JComponent {
 		indicators.add(indicator);
 	}
 	
+	public synchronized void lockMaxScale(double max) {
+		lockedMax = true;
+		targetMax = max;
+	}
+	public synchronized void unlockMaxScale() {
+		lockedMax = false;
+	}
+	
 	@Override
 	protected void paintComponent(Graphics g) {
 		Graphics2D g2d = (Graphics2D) g;
@@ -132,11 +140,16 @@ public class PlotterMeter extends JComponent {
 		
 		Rectangle plotR = plotRectangle();
 		if(plotter != null) {
-			targetMax = 0.0;
+			double newTargetMax = 0.0;
 			for(Sampler sampler : samplers) {
 				double max = plotter.paint(g2d, plotR, sampler.getColor(), sampler.getSamples(), sampleWidth, offset, currentMax);
-				if(max > targetMax) {
-					targetMax = max;
+				if(max > newTargetMax) {
+					newTargetMax = max;
+				}
+			}
+			synchronized(this) {
+				if(!lockedMax && newTargetMax != targetMax) {
+					targetMax = newTargetMax;
 				}
 			}
 		}
@@ -223,6 +236,7 @@ public class PlotterMeter extends JComponent {
 	
 	private double targetMax;
 	private double currentMax;
+	private boolean lockedMax;
 	
 	private double offset;
 	private double offsetIncrement;

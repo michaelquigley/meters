@@ -36,6 +36,7 @@ public class PlotterMeterExample {
 				plotterMeter.addIndicator(new FloatingLineIndicator(redSampler));
 				plotterMeter.addIndicator(new FloatingLineIndicator(orangeSampler));
 				plotterMeter.setSamplingInterval(1500);
+				//plotterMeter.lockMaxScale(1000.0);
 				content.add(plotterMeter);
 				
 				frame.setVisible(true);
