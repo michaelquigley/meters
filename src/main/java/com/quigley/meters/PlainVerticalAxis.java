@@ -1,3 +1,22 @@
+/*
+	Copyright (c) 2014 Michael F. Quigley Jr.
+	
+	This file is part of Quigley Meters.
+	
+	Quigley Meters is free software: you can redistribute it and/or modify
+	it under the terms of the GNU Lesser General Public License as 
+	published by the Free Software Foundation, either version 3 of 
+	the License, or (at your option) any later version.
+	
+	Quigley Meters is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	GNU Lesser General Public License for more details.
+	
+	You should have received a copy of the GNU Lesser General Public 
+	License along with Quigley Meters. If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package com.quigley.meters;
 
 import java.awt.BasicStroke;
@@ -7,6 +26,12 @@ import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.geom.Rectangle2D;
 
+/**
+ * A plain vertical axis implementation. Provides horizontal grid elements, which denote the maximum and midpoint
+ * values shown in the plotting area.
+ * 
+ * @author Michael Quigley
+ */
 public class PlainVerticalAxis implements VerticalAxis {
 	@Override
 	public int preferredWidth() {
@@ -14,37 +39,37 @@ public class PlainVerticalAxis implements VerticalAxis {
 	}
 
 	@Override
-	public void paint(Graphics2D g2d, Color backgroundColor, Color foregroundColor, 
+	public void paint(Graphics2D g, Color backgroundColor, Color foregroundColor, 
 			          Rectangle verticalAxisLabelR, Rectangle plotR, 
 			          ValueLabeler valueLabeler, 
 			          double currentMax) {
 		
-		g2d.setColor(backgroundColor);
-		g2d.fillRect(verticalAxisLabelR.x, verticalAxisLabelR.y, verticalAxisLabelR.width, verticalAxisLabelR.height);
+		g.setColor(backgroundColor);
+		g.fillRect(verticalAxisLabelR.x, verticalAxisLabelR.y, verticalAxisLabelR.width, verticalAxisLabelR.height);
 
-		g2d.setStroke(dashStroke);
-		g2d.setColor(foregroundColor);
+		g.setStroke(dashStroke);
+		g.setColor(foregroundColor);
 
-		g2d.drawLine(verticalAxisLabelR.x + verticalAxisLabelR.width - 1, verticalAxisLabelR.y, 
+		g.drawLine(verticalAxisLabelR.x + verticalAxisLabelR.width - 1, verticalAxisLabelR.y, 
 				     verticalAxisLabelR.x + verticalAxisLabelR.width - 1, verticalAxisLabelR.y + verticalAxisLabelR.height - 1);
 		
 		int midHeight = verticalAxisLabelR.y + (verticalAxisLabelR.height / 2);
-		g2d.drawLine(0, midHeight, plotR.x + plotR.width, midHeight);
+		g.drawLine(0, midHeight, plotR.x + plotR.width, midHeight);
 
 		if(valueLabeler != null) {
-			Font oldFont = g2d.getFont();
+			Font oldFont = g.getFont();
 			Font font = oldFont.deriveFont(10.0F);
-			g2d.setFont(font);
+			g.setFont(font);
 			
 			String maxLabel = valueLabeler.label(currentMax);
-			Rectangle2D maxExtent = g2d.getFontMetrics().getStringBounds(maxLabel, g2d);
-			g2d.drawString(maxLabel, verticalAxisLabelR.x + 2, (int) (verticalAxisLabelR.y + maxExtent.getHeight()));
+			Rectangle2D maxExtent = g.getFontMetrics().getStringBounds(maxLabel, g);
+			g.drawString(maxLabel, verticalAxisLabelR.x + 2, (int) (verticalAxisLabelR.y + maxExtent.getHeight()));
 			
 			String midLabel = valueLabeler.label(currentMax / 2.0);
-			Rectangle2D midExtent = g2d.getFontMetrics().getStringBounds(midLabel, g2d);
-			g2d.drawString(midLabel, verticalAxisLabelR.x + 2, (int) (midHeight + midExtent.getHeight()));
+			Rectangle2D midExtent = g.getFontMetrics().getStringBounds(midLabel, g);
+			g.drawString(midLabel, verticalAxisLabelR.x + 2, (int) (midHeight + midExtent.getHeight()));
 			
-			g2d.setFont(oldFont);
+			g.setFont(oldFont);
 		} 
 	}
 	
