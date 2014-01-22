@@ -38,7 +38,7 @@ public class PlotterMeterExample {
 			public void run() {
 				JFrame frame = new JFrame();
 				frame.setTitle("PlotterMeter Example");
-				frame.setBounds(1000, 500, 400, 200);
+				frame.setBounds(1000, 500, 300, 200);
 				frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 				
 				JPanel content = new JPanel();
